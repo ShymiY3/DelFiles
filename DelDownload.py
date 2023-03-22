@@ -1,6 +1,8 @@
 import os, time
 from sys import argv
 from send2trash import send2trash
+import argparse
+
 
 PATH = fr'{argv[1]}'
 DAYS = int(argv[2])*60*60*24
