@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 parser = ArgumentParser(description='Delete files in directory whiches modification date is older than 30 days')
 parser.add_argument('-p', '--path',  type=str, default='', help='Path to directory to remove, default: current')
 parser.add_argument('-d', '--mdays',  type=int, default=30, help='Max days without modification, default: 30')
-parser.add_argument('-l', '--log',  type=str, default='folldd', help='Path to store log, default: removing files directory')
+parser.add_argument('-l', '--log',  type=str, default='', help='Path to store log, default: removing files directory')
 args = parser.parse_args()
 
 PATH = fr'{args.path}'
@@ -16,7 +16,6 @@ else: LOG = args.log
 
 RemFiles = []
 
-print(PATH)
 try:
     with open(os.path.join(LOG, 'DelFiles.log'), 'a+', encoding='UTF-8') as DelFiles:
         for file in eval(f'os.listdir({PATH})'):
