@@ -8,7 +8,10 @@ parser.add_argument('-d', '--mdays',  type=int, default=30, help='Max days witho
 parser.add_argument('-l', '--log',  type=str, default='', help='Path to store log, default: removing files directory')
 args = parser.parse_args()
 
-PATH = fr'{args.path}'
+if args.path:
+    PATH = fr'{args.path}'
+else:PATH = os.getcwd()
+
 DAYS = args.mdays*60*60*24
 if not args.log:
     LOG = PATH
@@ -16,13 +19,14 @@ else: LOG = args.log
 
 RemFiles = []
 
-try:
-    with open(os.path.join(LOG, 'DelFiles.log'), 'a+', encoding='UTF-8') as DelFiles:
-        for file in eval(f'os.listdir({PATH})'):
-            if (time.time() > (modtime:=os.path.getmtime(os.path.join(PATH, file)))+DAYS) and file != 'DelFiles.txt':
-                send2trash(os.path.join(PATH, file))
-                RemFiles.append(time.strftime('%Y-%m-%d, %H:%M:%S', time.localtime(modtime)) + '\t' + file)
 
-        DelFiles.write('\n'.join(RemFiles)+'\n')
-except:
-   pass
+#try:
+with open(os.path.join(LOG, 'DelFiles.log'), 'a+', encoding='UTF-8') as DelFiles:
+    for file in os.listdir(PATH):
+        if (time.time() > (modtime:=os.path.getmtime(os.path.join(PATH, file)))+DAYS) and file != 'DelFiles.txt':
+            send2trash(os.path.join(PATH, file))
+            RemFiles.append(time.strftime('%Y-%m-%d, %H:%M:%S', time.localtime(modtime)) + '\t' + file)
+
+    DelFiles.write('\n'.join(RemFiles)+'\n')
+#except:
+ #  pass
