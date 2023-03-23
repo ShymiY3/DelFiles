@@ -27,6 +27,7 @@ try:
                 send2trash(os.path.join(PATH, file))
                 RemFiles.append(time.strftime('%Y-%m-%d, %H:%M:%S', time.localtime(modtime)) + '\t' + file)
 
-        DelFiles.write('\n'.join(RemFiles)+'\n')
+        if RemFiles:
+            DelFiles.write('\n'.join(RemFiles)+'\n')
         
 except: traceback.print_exc()
